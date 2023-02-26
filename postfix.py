@@ -59,11 +59,17 @@ def add_concatenation(exp):
     return ''.join(output)
 
 
-regular_expression = input("Enter a regular expression: ")
-resultado = add_concatenation(regular_expression)
-print(resultado)
-resultado = shunting_yard(resultado)
-resultado = ''.join(resultado)
-print(resultado)
-# visualize the tree
-tree = tree_visualizer.show_tree(resultado)
+def infix_to_postfix(infix):
+    resultado = add_concatenation(infix)
+    resultado = shunting_yard(resultado)
+    resultado = ''.join(resultado)
+    return resultado
+
+# regular_expression = input("Enter a regular expression: ")
+# resultado = add_concatenation(regular_expression)
+# print(resultado)
+# resultado = shunting_yard(resultado)
+# resultado = ''.join(resultado)
+# print(resultado)
+# # visualize the tree
+# tree = tree_visualizer.show_tree(resultado)

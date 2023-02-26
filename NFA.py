@@ -78,7 +78,7 @@ class AFN:
         dot.format = 'png'
         # print left to right order
         dot.attr(rankdir='LR')
-        return dot
+        dot.render('afn', view=True)
 
 
 def postfix_to_afn(postfix):
@@ -168,7 +168,7 @@ def postfix_to_afn(postfix):
     return stack.pop()
 
 
-postfix = "0?1??.0*."
-afn = postfix_to_afn(postfix)
-dot = afn.print_afn()
-dot.render('afn', view=True)
+# postfix = "0?1??.0*."
+# afn = postfix_to_afn(postfix)
+# dot = afn.print_afn()
+# dot.render('afn', view=True)

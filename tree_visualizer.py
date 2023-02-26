@@ -49,7 +49,7 @@ def show_tree(postfix):
     tree = build_tree(postfix)
     dot = draw_tree(tree)
     dot.format = 'png'
-    dot.render('postfix', view=True)
+    dot.render('tree', view=False)
 
 # tree = build_tree(postfix)
 # dot = draw_tree(tree)
