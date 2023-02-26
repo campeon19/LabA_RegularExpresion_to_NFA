@@ -125,24 +125,39 @@ def postfix_to_afn(postfix):
             afn = stack.pop()
             estado_inicial = Estado(id)
             id += 1
+            estado_intermedio1 = Estado(id)
+            id += 1
+            estado_intermedio2 = Estado(id)
+            id += 1
             estado_final = Estado(id)
             id += 1
             estado_inicial.agregar_trancision(EPSILON, afn.estado_inicial)
-            estado_inicial.agregar_trancision(EPSILON, estado_final)
             afn.estado_final.es_final = False
             afn.estado_final.agregar_trancision(EPSILON, estado_final)
+            estado_inicial.agregar_trancision(EPSILON, estado_intermedio1)
+            estado_intermedio1.agregar_trancision(EPSILON, estado_intermedio2)
+            estado_intermedio2.agregar_trancision(EPSILON, estado_final)
             stack.append(AFN(estado_inicial, estado_final))
         elif simbolo == PLUS:
+            # a+ = a.a*
             afn = stack.pop()
             estado_inicial = Estado(id)
             id += 1
+            estado_intermedio = Estado(id)
+            id += 1
             estado_final = Estado(id)
             id += 1
-            estado_inicial.agregar_trancision(EPSILON, afn.estado_inicial)
             afn.estado_final.es_final = False
-            afn.estado_final.agregar_trancision(EPSILON, afn.estado_inicial)
+            afn.estado_final.agregar_trancision(EPSILON, estado_inicial)
             afn.estado_final.agregar_trancision(EPSILON, estado_final)
-            stack.append(AFN(estado_inicial, estado_final))
+            estado_intermedio.agregar_trancision(EPSILON, estado_inicial)
+            estado_intermedio.agregar_trancision(EPSILON, estado_final)
+            afnSimbolo = afn.estado_inicial.trancisiones.keys()
+            for simbolo in afnSimbolo:
+                for estado in afn.estado_inicial.get_trancisiones(simbolo):
+                    estado_inicial.agregar_trancision(
+                        simbolo, estado_intermedio)
+            stack.append(AFN(afn.estado_inicial, estado_final))
         else:
             estado_inicial = Estado(id)
             id += 1
@@ -153,7 +168,7 @@ def postfix_to_afn(postfix):
     return stack.pop()
 
 
-postfix = "ab|*a.b.b."
+postfix = "0?1??.0*."
 afn = postfix_to_afn(postfix)
 dot = afn.print_afn()
 dot.render('afn', view=True)
