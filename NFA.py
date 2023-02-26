@@ -76,6 +76,8 @@ class AFN:
                     dot.edge(str(estado.id), str(
                         next_estado.id), label=str(simbolo))
         dot.format = 'png'
+        # print left to right order
+        dot.attr(rankdir='LR')
         return dot
 
 
@@ -87,9 +89,12 @@ def postfix_to_afn(postfix):
             afn2 = stack.pop()
             afn1 = stack.pop()
             afn1.estado_final.es_final = False
-            afn1.estado_final.agregar_trancision(EPSILON, afn2.estado_inicial)
-            new_afn = AFN(afn1.estado_inicial, afn2.estado_final)
-            stack.append(new_afn)
+            af2Simbolo = afn2.estado_inicial.trancisiones.keys()
+            for simbolo in af2Simbolo:
+                for estado in afn2.estado_inicial.get_trancisiones(simbolo):
+                    afn1.estado_final.agregar_trancision(simbolo, estado)
+            newAFN = AFN(afn1.estado_inicial, afn2.estado_final)
+            stack.append(newAFN)
         elif simbolo == UNION:
             afn2 = stack.pop()
             afn1 = stack.pop()
