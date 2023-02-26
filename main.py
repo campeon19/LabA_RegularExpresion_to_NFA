@@ -6,6 +6,8 @@ from input_correction import validate_regex
 
 def main():
     regular_expression = input("Enter a regular expression: ")
+    # borrar espacios en blanco
+    regular_expression = regular_expression.replace(" ", "")
     if validate_regex(regular_expression):
         postfix = infix_to_postfix(regular_expression)
         print(postfix)

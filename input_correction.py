@@ -1,11 +1,12 @@
-# Validate that the regular expression is valid
-
+# Christian Perez - 19710
 import re
+
+# validacion de expresiones regulares donde recibe una expresion regular y devuelve True si es valida y False si no lo es mostrando porque no es valida
 
 
 def validate_regex(regex):
     try:
-        # Verificar si hay dos o más operadores | consecutivos
+        # Se validan diferentes parametros de la expresion regular
         if re.search(r"\|\|", regex):
             raise re.error("Hay dos o más operadores | consecutivos")
         elif re.search(r"\|\)", regex):
@@ -32,26 +33,13 @@ def validate_regex(regex):
                 raise re.error(
                     "Hay un operador | al inicio o al final de la expresión regular o no hay un simbolo antes y/o después de él")
 
+        # Si paso la expresion regular las pruebas anteriores, pasara luego por re.compile()
+        # para verificar si la expresion regular es valida utilizando otros parametros como los parentesis
+        # si no es valida, se mostrara el error y devolvera False, si es valida, devolvera True
         re.compile(regex)
         print("La expresión regular es válida")
         return True
     except re.error as e:
-        # print(e)
+        # Retorno del error de la expresion regular
         print("La expresión regular no es válida: {}".format(str(e)))
         return False
-
-
-def main():
-    # regex = input("Enter a regular expression: ")
-    # validate_regex(regex)
-    print(validate_regex("a||"))    # False
-    print(validate_regex("(a|)"))   # False
-    print(validate_regex("((a|b)"))  # False
-    print(validate_regex("|b"))     # False
-    print(validate_regex("?a|b"))  # False
-    print(validate_regex("()"))     # False
-    print(validate_regex("a|b"))   # True
-
-
-if __name__ == "__main__":
-    main()
