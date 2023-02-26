@@ -87,10 +87,9 @@ def postfix_to_afn(postfix):
             afn2 = stack.pop()
             afn1 = stack.pop()
             afn1.estado_final.es_final = False
-            af2SegundoEstado = afn2.estado_inicial
-            afn1.estado_final.agregar_trancision(
-                afn2.estado_inicial.trancisiones, afn2.estado_inicial)
-
+            afn1.estado_final.agregar_trancision(EPSILON, afn2.estado_inicial)
+            new_afn = AFN(afn1.estado_inicial, afn2.estado_final)
+            stack.append(new_afn)
         elif simbolo == UNION:
             afn2 = stack.pop()
             afn1 = stack.pop()
